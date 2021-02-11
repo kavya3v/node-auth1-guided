@@ -1,8 +1,10 @@
 const router = require("express").Router();
-
 const Users = require("./users-model.js");
+//middleware to check session existence
+const loginCheck = require("../auth/loggedin-check-middleware");
 
-router.get("/", (req, res) => {
+router.get("/",loginCheck, (req, res) => {
+// router.get("/",restrict, (req, res) => {
   Users.find()
     .then(users => {
       res.status(200).json(users);
@@ -10,4 +12,5 @@ router.get("/", (req, res) => {
     .catch(err => res.send(err));
 });
 
+ 
 module.exports = router;
